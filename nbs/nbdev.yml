@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: ""
+  site-url: "https://.github.io/"
+  description: ""
+  repo-branch: 
+  repo-url: "https://github.com//"

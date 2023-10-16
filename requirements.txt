@@ -1,0 +1,5 @@
+nbdev
+solara
+matplotlib
+pandas
+requests
