@@ -3,3 +3,4 @@ solara
 matplotlib
 pandas
 requests
+jupyterlab
