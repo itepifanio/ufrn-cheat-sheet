@@ -5,14 +5,14 @@ __all__ = ['matricula_filename', 'matricula_url', 'df_matriculas', 'turma_filena
            'componente_filename', 'componente_url', 'df_componentes_curriculares_presenciais', 'docente_filename',
            'docente_url', 'df_docentes', 'df']
 
-# %% ../nbs/00_data_filtering.ipynb 2
+# %% ../nbs/00_data_filtering.ipynb 3
 import os
 
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# %% ../nbs/00_data_filtering.ipynb 4
+# %% ../nbs/00_data_filtering.ipynb 5
 matricula_filename = "matriculas-2022.2.csv"
 matricula_url = "https://dados.ufrn.br/dataset/c8650d55-3c5a-4787-a126-d28a4ef902a6/resource/b159805b-e7cb-4d71-872b-14a1a2625d7e/download/matriculas-2022.2.csv"
 
@@ -21,10 +21,10 @@ if matricula_filename not in os.listdir('.'):
     with open(matricula_filename, "wb") as file:
         file.write(response.content)
 
-# %% ../nbs/00_data_filtering.ipynb 5
+# %% ../nbs/00_data_filtering.ipynb 6
 df_matriculas = pd.read_csv('matriculas-2022.2.csv', sep=';')
 
-# %% ../nbs/00_data_filtering.ipynb 8
+# %% ../nbs/00_data_filtering.ipynb 9
 turma_filename = "turmas-2022.2.csv"
 turma_url = "https://dados.ufrn.br/dataset/1938623d-fb07-41a4-a55a-1691f7c3b8b5/resource/991cb0c0-ea9d-4507-8ff2-a24b288d90b5/download/turmas-2022.2.csv"
 
@@ -33,14 +33,14 @@ if turma_filename not in os.listdir('.'):
     with open(turma_filename, "wb") as file:
         file.write(response.content)
 
-# %% ../nbs/00_data_filtering.ipynb 9
+# %% ../nbs/00_data_filtering.ipynb 10
 df_turmas = pd.read_csv('turmas-2022.2.csv', sep=';')
 
-# %% ../nbs/00_data_filtering.ipynb 10
+# %% ../nbs/00_data_filtering.ipynb 11
 df_turmas = df_turmas.loc[:, ['id_turma', 'siape', 'id_componente_curricular', 'ano', 'periodo']]
 df_turmas.head()
 
-# %% ../nbs/00_data_filtering.ipynb 12
+# %% ../nbs/00_data_filtering.ipynb 13
 componente_filename = "componentes-curriculares-presenciais.csv"
 componente_url = "https://dados.ufrn.br/dataset/3fea67e8-6916-4ed0-aaa6-9a8ca06a9bdc/resource/9a3521d2-4bc5-4fda-93f0-f701c8a20727/download/componentes-curriculares-presenciais.csv"
 
@@ -49,13 +49,13 @@ if componente_filename not in os.listdir('.'):
     with open(componente_filename, "wb") as file:
         file.write(response.content)
 
-# %% ../nbs/00_data_filtering.ipynb 13
+# %% ../nbs/00_data_filtering.ipynb 14
 df_componentes_curriculares_presenciais = pd.read_csv('componentes-curriculares-presenciais.csv', sep=';')
 
-# %% ../nbs/00_data_filtering.ipynb 15
+# %% ../nbs/00_data_filtering.ipynb 16
 df_componentes_curriculares_presenciais = df_componentes_curriculares_presenciais.loc[:, ['id_componente', 'nome', 'codigo', 'unidade_responsavel']]
 
-# %% ../nbs/00_data_filtering.ipynb 17
+# %% ../nbs/00_data_filtering.ipynb 18
 docente_filename = "docentes.csv"
 docente_url = "https://dados.ufrn.br/dataset/8bf1a468-48ff-4f4d-95ee-b17b7a3a5592/resource/6a8e5461-e748-45c6-aac6-432188d88dde/download/docentes.csv"
 
@@ -64,20 +64,20 @@ if docente_filename not in os.listdir('.'):
     with open(docente_filename, "wb") as file:
         file.write(response.content)
 
-# %% ../nbs/00_data_filtering.ipynb 18
+# %% ../nbs/00_data_filtering.ipynb 19
 df_docentes = pd.read_csv('docentes.csv', sep=';')
 
-# %% ../nbs/00_data_filtering.ipynb 19
+# %% ../nbs/00_data_filtering.ipynb 20
 df_docentes = df_docentes.loc[:, ['siape', 'nome']]
 
-# %% ../nbs/00_data_filtering.ipynb 21
+# %% ../nbs/00_data_filtering.ipynb 22
 df = df_matriculas.merge(df_turmas, how='inner', on='id_turma')
 
-# %% ../nbs/00_data_filtering.ipynb 23
+# %% ../nbs/00_data_filtering.ipynb 24
 df = df.merge(df_componentes_curriculares_presenciais, how='inner', left_on='id_componente_curricular', right_on='id_componente')
 
-# %% ../nbs/00_data_filtering.ipynb 25
+# %% ../nbs/00_data_filtering.ipynb 26
 df = df.merge(df_docentes, how='inner', on='siape', suffixes=('_componente', '_docente'))
 
-# %% ../nbs/00_data_filtering.ipynb 28
+# %% ../nbs/00_data_filtering.ipynb 29
 df.to_csv('turma_matricula_docente_filtrados.csv')
