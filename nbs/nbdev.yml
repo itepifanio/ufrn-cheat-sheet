@@ -2,8 +2,8 @@ project:
   output-dir: _docs
 
 website:
-  title: ""
-  site-url: "https://.github.io/"
+  title: "professor_cheat_sheet"
+  site-url: "https://.github.io/professor_cheat_sheet"
   description: ""
-  repo-branch: 
-  repo-url: "https://github.com//"
+  repo-branch: main
+  repo-url: "https://github.com//professor_cheat_sheet"
