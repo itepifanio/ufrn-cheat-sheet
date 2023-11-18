@@ -1,6 +1,7 @@
 _docs/
 _proc/
 *.csv
+*.db
 
 *.bak
 .gitattributes
