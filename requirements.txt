@@ -1,7 +1,6 @@
-nbdev
-solara
-matplotlib
-pandas
-requests
-jupyterlab
-sqlite
+nbdev>=2.3.13
+solara>=1.25.0
+matplotlib>=3.8.0
+pandas>=2.1.1
+requests>=2.31.0
+jupyterlab>=4.0.9
