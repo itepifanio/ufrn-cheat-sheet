@@ -10,7 +10,7 @@ import solara
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from professor_cheat_sheet.storage import ReadOnlyInMemorySQLite
+from ufrn_cheat_sheet.storage import ReadOnlyInMemorySQLite
 
 # %% ../nbs/02_solara.ipynb 4
 db = ReadOnlyInMemorySQLite()
