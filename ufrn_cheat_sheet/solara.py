@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 from ufrn_cheat_sheet.storage import ReadOnlyInMemorySQLite
 
 # %% ../nbs/02_solara.ipynb 4
+#| skip_exec: true
+#| skip_showdoc: true
 db = ReadOnlyInMemorySQLite()
 
 # %% ../nbs/02_solara.ipynb 5

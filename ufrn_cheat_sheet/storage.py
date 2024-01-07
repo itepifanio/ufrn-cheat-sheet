@@ -11,7 +11,10 @@ import pandas as pd
 class ReadOnlyInMemorySQLite:
     def __init__(self):
         self.connection = sqlite3.connect('file:storage.db?mode=memory&cache=shared', uri=False)
-        self.load_csv_as_table('turma_matricula_docente_filtrados.csv', 'data')
+        try:
+            self.load_csv_as_table('turma_matricula_docente_filtrados.csv', 'data')
+        except FileNotFoundError:
+            print("CSV file not found. Skipping table loading.")
 
     def load_csv_as_table(self, csv_path, table_name):
         df = pd.read_csv(csv_path)
