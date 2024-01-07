@@ -3,20 +3,20 @@
 # %% auto 0
 __all__ = ['ReadOnlyInMemorySQLite']
 
-# %% ../nbs/01_sqlite.ipynb 2
+# %% ../nbs/01_sqlite.ipynb 3
 import sqlite3
 import pandas as pd
 
-# %% ../nbs/01_sqlite.ipynb 4
+# %% ../nbs/01_sqlite.ipynb 6
 class ReadOnlyInMemorySQLite:
     def __init__(self):
-        self.connection = sqlite3.connect(':memory:?cache=shared', uri=True)
+        self.connection = sqlite3.connect('file:storage.db?mode=memory&cache=shared', uri=False)
         self.load_csv_as_table('turma_matricula_docente_filtrados.csv', 'data')
 
     def load_csv_as_table(self, csv_path, table_name):
         df = pd.read_csv(csv_path)
         df.to_sql(table_name, self.connection, if_exists='replace', index=False)
-    
+
     def execute_query(self, query):
         with self.connection:
             cursor = self.connection.cursor()

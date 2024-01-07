@@ -2,5 +2,6 @@ website:
   sidebar:
     contents:
       - index.ipynb
-      - 00_data_filtering.ipynb
-      - 01_solara.ipynb
+      - 00_data_extraction.ipynb
+      - 01_sqlite.ipynb
+      - 02_solara.ipynb
