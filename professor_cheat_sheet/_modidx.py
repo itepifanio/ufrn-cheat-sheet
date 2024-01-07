@@ -14,4 +14,12 @@ d = { 'settings': { 'branch': 'main',
                                               'professor_cheat_sheet.solara.SelectDocente': ( 'solara.html#selectdocente',
                                                                                               'professor_cheat_sheet/solara.py'),
                                               'professor_cheat_sheet.solara.SelectUnidade': ( 'solara.html#selectunidade',
-                                                                                              'professor_cheat_sheet/solara.py')}}}
+                                                                                              'professor_cheat_sheet/solara.py')},
+            'professor_cheat_sheet.storage': { 'professor_cheat_sheet.storage.ReadOnlyInMemorySQLite': ( 'sqlite.html#readonlyinmemorysqlite',
+                                                                                                         'professor_cheat_sheet/storage.py'),
+                                               'professor_cheat_sheet.storage.ReadOnlyInMemorySQLite.__init__': ( 'sqlite.html#readonlyinmemorysqlite.__init__',
+                                                                                                                  'professor_cheat_sheet/storage.py'),
+                                               'professor_cheat_sheet.storage.ReadOnlyInMemorySQLite.execute_query': ( 'sqlite.html#readonlyinmemorysqlite.execute_query',
+                                                                                                                       'professor_cheat_sheet/storage.py'),
+                                               'professor_cheat_sheet.storage.ReadOnlyInMemorySQLite.load_csv_as_table': ( 'sqlite.html#readonlyinmemorysqlite.load_csv_as_table',
+                                                                                                                           'professor_cheat_sheet/storage.py')}}}
