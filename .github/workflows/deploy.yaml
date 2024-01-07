@@ -11,4 +11,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    steps: [uses: fastai/workflows/quarto-ghp@master]
+    steps: 
+      - name: Install Library
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      - uses: fastai/workflows/quarto-ghp@master
