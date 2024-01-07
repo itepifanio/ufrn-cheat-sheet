@@ -10,7 +10,7 @@ import pandas as pd
 # %% ../nbs/01_sqlite.ipynb 6
 class ReadOnlyInMemorySQLite:
     def __init__(self):
-        self.connection = sqlite3.connect('file:storage.db?mode=memory&cache=shared', uri=False)
+        self.connection = sqlite3.connect('file:storage.db?mode=memory&cache=shared', uri=True, check_same_thread=False)
         try:
             self.load_csv_as_table('turma_matricula_docente_filtrados.csv', 'data')
         except FileNotFoundError:

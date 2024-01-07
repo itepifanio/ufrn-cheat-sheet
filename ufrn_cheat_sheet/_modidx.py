@@ -2,8 +2,8 @@
 
 d = { 'settings': { 'branch': 'main',
                 'doc_baseurl': '/ufrn_cheat_sheet',
-                'doc_host': 'https://.github.io',
-                'git_url': 'https://github.com//ufrn_cheat_sheet',
+                'doc_host': 'https://itepifanio.github.io/',
+                'git_url': 'https://github.com/itepifanio/ufrn_cheat_sheet',
                 'lib_path': 'ufrn_cheat_sheet'},
   'syms': { 'ufrn_cheat_sheet.pull_data': {},
             'ufrn_cheat_sheet.solara': { 'ufrn_cheat_sheet.solara.Page': ('solara.html#page', 'ufrn_cheat_sheet/solara.py'),
