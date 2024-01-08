@@ -9,4 +9,34 @@ de se matricularem nas suas disciplinas.
 Os dados utilizados foram obtidos a partir do portal [dados abertos da
 UFRN](https://dados.ufrn.br/).
 
-![](images/aplicacao.png)
+Acesse a aplicação aqui: <https://sparkling-heart-8984.ploomberapp.io/>
+
+![](https://raw.githubusercontent.com/itepifanio/ufrn-cheat-sheet/main/nbs/images/aplicacao.png)
+
+## Documentação
+
+Documentação do sistema está disponível em:
+<https://itepifanio.github.io/ufrn-cheat-sheet>
+
+## Instalação e execução
+
+Todas as dependências estão listadas em `requirements.txt`. Crei seu
+ambiente virtual python e execute `pip install -r requirements.txt`.
+
+O código é desenvolvido em Jupyter notebooks (`nbs/*.ipynb`) e
+exportados utilizando a biblioteca [nbdev](https://nbdev.fast.ai/).
+Execute os notebooks para entender o código e estrutra geral da
+aplicação.
+
+Existe um dockerfile disponível para instalar e executar a aplicação
+[solara](https://solara.dev/), para executa-lo modifique a porta e
+execute `docker build -t ufrncs . && docker run ufrncs`.
+
+## Roadmap
+
+Atualmente a aplicação apenas utiliza os dados do semestre 2022.2, em
+atualizações futuras:
+
+- [ ] Adição de mais semestres para melhorar a busca das taxas de
+  aprovações
+- [ ] Omissão da seleção do curso através do login via SIGAA
