@@ -63,9 +63,7 @@ def SelectDocente():
     solara.Select(label="Docente", value=docente, values=values)
 
 # %% ../nbs/02_solara.ipynb 11
-def PieChart():
-    #solara.use_state(docente)
-    
+def PieChart():  
     q = f"""SELECT descricao, COUNT(*) as contagem
     FROM (
         SELECT DISTINCT discente, descricao
@@ -78,20 +76,20 @@ def PieChart():
     """
 
     data = pd.read_sql_query(q, db.connection)
-
+    
     data['porcentagem'] = (data['contagem'] / data['contagem'].sum()) * 100
+    data['porcentagem'] = data['porcentagem'].round(2)
 
     contagem_descricao = data['descricao'].value_counts()
-    porcentagens = (contagem_descricao / contagem_descricao.sum()) * 100
     
     fig, ax = plt.subplots(figsize=(10, 6))
-    wedges, texts, autotexts = ax.pie(porcentagens, labels=porcentagens.index, autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.4))
+    wedges, texts, autotexts = ax.pie(data['porcentagem'].to_list(), labels=contagem_descricao.index, autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.4))
     
     for text, autotext in zip(texts, autotexts):
         text.set(size=10)
         autotext.set(size=10)
     
-    legend_labels = [f"{label}: {value}" for label, value in zip(contagem_descricao.index, contagem_descricao.values)]
+    legend_labels = [f"{label}: {value}" for label, value in zip(contagem_descricao.index, data['porcentagem'].to_list())]
     ax.legend(wedges, legend_labels, title="Descrições", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
     solara.FigureMatplotlib(fig)
 
