@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "UFRN Cheat Sheet",
+    "section": "",
+    "text": "UFRN Cheat Sheet ou “Folha de Trapaça da UFRN” é uma aplicação que permite que alunos verifiquem a taxa de aprovação dos professores antes de se matricularem nas suas disciplinas.\nOs dados utilizados foram obtidos a partir do portal dados abertos da UFRN.\nAcesse a aplicação aqui: https://sparkling-heart-8984.ploomberapp.io/"
+  },
+  {
+    "objectID": "index.html#documentação",
+    "href": "index.html#documentação",
+    "title": "UFRN Cheat Sheet",
+    "section": "Documentação",
+    "text": "Documentação\nDocumentação do sistema está disponível em: https://itepifanio.github.io/ufrn-cheat-sheet"
+  },
+  {
+    "objectID": "index.html#instalação-e-execução",
+    "href": "index.html#instalação-e-execução",
+    "title": "UFRN Cheat Sheet",
+    "section": "Instalação e execução",
+    "text": "Instalação e execução\nTodas as dependências estão listadas em requirements.txt. Crei seu ambiente virtual python e execute pip install -r requirements.txt.\nO código é desenvolvido em Jupyter notebooks (nbs/*.ipynb) e exportados utilizando a biblioteca nbdev. Execute os notebooks para entender o código e estrutra geral da aplicação.\nExiste um dockerfile disponível para instalar e executar a aplicação solara, para executa-lo modifique a porta e execute docker build -t ufrncs . && docker run ufrncs."
+  },
+  {
+    "objectID": "index.html#roadmap",
+    "href": "index.html#roadmap",
+    "title": "UFRN Cheat Sheet",
+    "section": "Roadmap",
+    "text": "Roadmap\nAtualmente a aplicação apenas utiliza os dados do semestre 2022.2, em atualizações futuras:\n\nAdição de mais semestres para melhorar a busca das taxas de aprovações\nMelhorar filtragem dos dados (eliminando turmas sem professores, matriculas canceladas, etc)\nCombinar docentes que deram disciplinas juntos\nOmissão da seleção do curso através do login via SIGAA"
+  },
+  {
+    "objectID": "data_extraction.html",
+    "href": "data_extraction.html",
+    "title": "Extração dos dados",
+    "section": "",
+    "text": "As células a seguir realizam o download das matrículas de determinados semestres.\nCada matrícula é associada a uma turma, um discente (anonimizado) e um curso.\n\ndf_matriculas.head()"
+  },
+  {
+    "objectID": "data_extraction.html#matriculas",
+    "href": "data_extraction.html#matriculas",
+    "title": "Extração dos dados",
+    "section": "",
+    "text": "As células a seguir realizam o download das matrículas de determinados semestres.\nCada matrícula é associada a uma turma, um discente (anonimizado) e um curso.\n\ndf_matriculas.head()"
+  },
+  {
+    "objectID": "data_extraction.html#turmas",
+    "href": "data_extraction.html#turmas",
+    "title": "Extração dos dados",
+    "section": "Turmas",
+    "text": "Turmas\nPara saber qual componente currícular as notas e status (aprovado ou não) são relacionadas é preciso baixar as informações de turmas. Dessa tabela apenas as informações relacionadas ao componente currícular são pertinentes e serão, portanto, logo filtradas.\n\ndf_turmas.head()"
+  },
+  {
+    "objectID": "data_extraction.html#componentes",
+    "href": "data_extraction.html#componentes",
+    "title": "Extração dos dados",
+    "section": "Componentes",
+    "text": "Componentes\nPara ter acesso ao nome do componente currícular é necessário baixar os componentes currículares. Note que apenas componente presenciais foram levados em conta no presente sistema.\n\ndf_componentes_curriculares_presenciais.head()"
+  },
+  {
+    "objectID": "data_extraction.html#docente",
+    "href": "data_extraction.html#docente",
+    "title": "Extração dos dados",
+    "section": "Docente",
+    "text": "Docente\nA lista dos docentes da UFRN é baixada para ter acesso ao nome dos professores responsáveis pelo componente currícular."
+  },
+  {
+    "objectID": "data_extraction.html#matricula-turma-componente-docente",
+    "href": "data_extraction.html#matricula-turma-componente-docente",
+    "title": "Extração dos dados",
+    "section": "Matricula + Turma + Componente + Docente",
+    "text": "Matricula + Turma + Componente + Docente\nA presente seção une os dados filtrados em um único pd.DataFrame e exporta-o como .csv permitindo que ele seja inserido em um banco de dados posteriormente.\n\ndf.head()\n\n\ndf.head()\n\n\ndf.head()"
+  },
+  {
+    "objectID": "data_extraction.html#análise-exemplo",
+    "href": "data_extraction.html#análise-exemplo",
+    "title": "Extração dos dados",
+    "section": "Análise exemplo",
+    "text": "Análise exemplo\nO plot a seguir realiza a análise que pretende ser feita com o sistema, filtrando o dataframe com base em uma turma e curso específico.\n\nid_turma_especifica = 57705399\nid_curso_especifico = 2000005\nid_docente_especifico = 2140673\ndf_filtrado = df[(df['id_turma'] == id_turma_especifica) & (df['id_curso'] == id_curso_especifico) & (df['siape'] == id_docente_especifico)]\n\ncontagem_descricao = df_filtrado['descricao'].value_counts()\nporcentagens = (contagem_descricao / contagem_descricao.sum()) * 100\n\n# Plota o gráfico de pizza\nfig, ax = plt.subplots(figsize=(10, 6))  # Ajustando o tamanho da figura\nwedges, _ = ax.pie(porcentagens, labels=porcentagens.index, startangle=90, wedgeprops=dict(width=0.4))\n\nax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.\n\n# Adiciona uma legenda à direita do gráfico de pizza\nlegend_labels = [f\"{label}: {value}\" for label, value in zip(contagem_descricao.index, contagem_descricao.values)]\nax.legend(wedges, legend_labels, title=\"Descrições\", loc=\"center left\", bbox_to_anchor=(1, 0, 0.5, 1))\n\nplt.title('Porcentagem por Descrição')\nplt.show()"
+  },
+  {
+    "objectID": "solara.html",
+    "href": "solara.html",
+    "title": "Solara",
+    "section": "",
+    "text": "Solara trabalha com o conceito de componentes. A atualização de uma variável reativa atualiza os componentes que a utilizam, dessa forma a mudança de uma unidade modifica a lista de componentes disponíveis, e a escolha de um componente modifica a lista de docentes, por fim, a seleção de um docente apresenta o plot da taxa de aprovação.\n\nsource\n\n\n\n SelectUnidade ()\n\n\nsource\n\n\n\n\n SelectComponente ()\n\n\nsource\n\n\n\n\n SelectDocente ()\n\n\nsource\n\n\n\n\n PieChart ()"
+  },
+  {
+    "objectID": "solara.html#componentes",
+    "href": "solara.html#componentes",
+    "title": "Solara",
+    "section": "",
+    "text": "Solara trabalha com o conceito de componentes. A atualização de uma variável reativa atualiza os componentes que a utilizam, dessa forma a mudança de uma unidade modifica a lista de componentes disponíveis, e a escolha de um componente modifica a lista de docentes, por fim, a seleção de um docente apresenta o plot da taxa de aprovação.\n\nsource\n\n\n\n SelectUnidade ()\n\n\nsource\n\n\n\n\n SelectComponente ()\n\n\nsource\n\n\n\n\n SelectDocente ()\n\n\nsource\n\n\n\n\n PieChart ()"
+  },
+  {
+    "objectID": "solara.html#page",
+    "href": "solara.html#page",
+    "title": "Solara",
+    "section": "Page",
+    "text": "Page\nSolara trabalha o conceito de Page() para combinar os componentes em uma página, estiliza-los e adicionar a estrutura em um layout. Esse é o resultado final da aplicação.\n\nsource\n\nPage\n\n Page ()"
+  },
+  {
+    "objectID": "sqlite.html",
+    "href": "sqlite.html",
+    "title": "Sqlite",
+    "section": "",
+    "text": "A seguinte seção adiciona uma cada de abstração para a execução de queries SQLite. A presente aplicação requer o carregamento inicial do conjunto de dados abertos da UFRN, que é então disponibilizado para leitura de diversos usuários.\nPrecisa-se checar se a máquina que vai receber a aplicação tem memória suficiente para roda-la.\n\ndef get_memory_usage_of_db(connection):\n    with tempfile.NamedTemporaryFile(delete=True) as temp_file:\n        file_connection = sqlite3.connect(temp_file.name)\n        connection.backup(file_connection)\n        file_connection.close()\n\n        size_in_bytes = os.path.getsize(temp_file.name)\n        size_in_mb = size_in_bytes / (1024 * 1024)\n\n        return size_in_mb\n\ndb = ReadOnlyInMemorySQLite()\nmemory_usage = get_memory_usage_of_db(db.connection)\nprint(f\"Memory usage of the database: {memory_usage} bytes\")\n\n\ndb.execute_query(f'SELECT unidade_responsavel FROM data LIMIT 1')\n\n\nunidade_responsavel = 'DEPARTAMENTO DE INFORMÁTICA E MATEMÁTICA APLICADA'\nnome_componente = 'FUNDAMENTOS MATEMÁTICOS DA COMPUTAÇÃO II'\ndocente = 'ATHANASIOS TSOUANAS'\n\n\nq = f\"\"\"SELECT descricao, COUNT(*) as contagem\nFROM (\n    SELECT DISTINCT discente, descricao\n    FROM data\n    WHERE unidade_responsavel = '{unidade_responsavel}'\n    AND nome_componente = '{nome_componente}'\n    AND nome_docente = '{docente}'\n)\nGROUP BY descricao;\"\"\"\n\n\nimport pandas as pd\ndata = pd.read_sql_query(q, db.connection)\ndata['porcentagem'] = (data['contagem'] / data['contagem'].sum()) * 100\ndata\n\n\ncontagem_descricao = data['descricao'].value_counts()\ncontagem_descricao\n\n\ncontagem_descricao.index\n\n\ndb.execute_query(\"SELECT DISTINCT(nome_componente) from data WHERE unidade_responsavel = 'DEPARTAMENTO DE INFORMÁTICA E MATEMÁTICA APLICADA' ORDER BY nome_componente\")"
+  },
+  {
+    "objectID": "sqlite.html#wrapper",
+    "href": "sqlite.html#wrapper",
+    "title": "Sqlite",
+    "section": "",
+    "text": "A seguinte seção adiciona uma cada de abstração para a execução de queries SQLite. A presente aplicação requer o carregamento inicial do conjunto de dados abertos da UFRN, que é então disponibilizado para leitura de diversos usuários.\nPrecisa-se checar se a máquina que vai receber a aplicação tem memória suficiente para roda-la.\n\ndef get_memory_usage_of_db(connection):\n    with tempfile.NamedTemporaryFile(delete=True) as temp_file:\n        file_connection = sqlite3.connect(temp_file.name)\n        connection.backup(file_connection)\n        file_connection.close()\n\n        size_in_bytes = os.path.getsize(temp_file.name)\n        size_in_mb = size_in_bytes / (1024 * 1024)\n\n        return size_in_mb\n\ndb = ReadOnlyInMemorySQLite()\nmemory_usage = get_memory_usage_of_db(db.connection)\nprint(f\"Memory usage of the database: {memory_usage} bytes\")\n\n\ndb.execute_query(f'SELECT unidade_responsavel FROM data LIMIT 1')\n\n\nunidade_responsavel = 'DEPARTAMENTO DE INFORMÁTICA E MATEMÁTICA APLICADA'\nnome_componente = 'FUNDAMENTOS MATEMÁTICOS DA COMPUTAÇÃO II'\ndocente = 'ATHANASIOS TSOUANAS'\n\n\nq = f\"\"\"SELECT descricao, COUNT(*) as contagem\nFROM (\n    SELECT DISTINCT discente, descricao\n    FROM data\n    WHERE unidade_responsavel = '{unidade_responsavel}'\n    AND nome_componente = '{nome_componente}'\n    AND nome_docente = '{docente}'\n)\nGROUP BY descricao;\"\"\"\n\n\nimport pandas as pd\ndata = pd.read_sql_query(q, db.connection)\ndata['porcentagem'] = (data['contagem'] / data['contagem'].sum()) * 100\ndata\n\n\ncontagem_descricao = data['descricao'].value_counts()\ncontagem_descricao\n\n\ncontagem_descricao.index\n\n\ndb.execute_query(\"SELECT DISTINCT(nome_componente) from data WHERE unidade_responsavel = 'DEPARTAMENTO DE INFORMÁTICA E MATEMÁTICA APLICADA' ORDER BY nome_componente\")"
+  }
+]
