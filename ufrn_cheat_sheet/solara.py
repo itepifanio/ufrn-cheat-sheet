@@ -64,32 +64,35 @@ def SelectDocente():
 
 # %% ../nbs/03_solara.ipynb 11
 def PieChart():  
-    q = f"""SELECT descricao, COUNT(*) as contagem
-    FROM (
-        SELECT DISTINCT discente, descricao
-        FROM data
-        WHERE unidade_responsavel = '{db_get(unidade)}'
-        AND nome_componente = '{db_get(componente)}'
-        AND nome_docente = '{db_get(docente)}'
-    )
-    GROUP BY descricao;
+    q = f"""SELECT taxa_de_aprovacao
+    FROM data
+    WHERE unidade_responsavel = '{db_get(unidade)}' AND 
+          nome_componente = '{db_get(componente)}'  AND 
+          nome_docente = '{db_get(docente)}';
     """
 
     data = pd.read_sql_query(q, db.connection)
-    
-    data['porcentagem'] = (data['contagem'] / data['contagem'].sum()) * 100
-    data['porcentagem'] = data['porcentagem'].round(2)
 
-    contagem_descricao = data['descricao'].value_counts()
-    
+    taxa_aprovacao = data['tava_de_aprovacao']
+
     fig, ax = plt.subplots(figsize=(10, 6))
-    wedges, texts, autotexts = ax.pie(data['porcentagem'].to_list(), labels=contagem_descricao.index, autopct='%1.1f%%', startangle=90, wedgeprops=dict(width=0.4))
+    wedges, texts, autotexts = ax.pie(
+        taxa_aprovacao.to_list(),
+        labels=taxa_aprovacao.unique().to_list(),
+        autopct='%1.1f%%',
+        startangle=90,
+        wedgeprops=dict(width=0.4)
+    )
     
     for text, autotext in zip(texts, autotexts):
         text.set(size=10)
         autotext.set(size=10)
+
+    legend_labels = [
+        f"{label}: {value}" 
+        for label, value in zip(taxa_aprovacao.unique().to_list(), taxa_aprovacao.to_list())
+    ]
     
-    legend_labels = [f"{label}: {value}" for label, value in zip(contagem_descricao.index, data['porcentagem'].to_list())]
     ax.legend(wedges, legend_labels, title="Descrições", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
     solara.FigureMatplotlib(fig)
 
