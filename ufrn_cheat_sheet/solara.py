@@ -4,6 +4,8 @@
 __all__ = ['db', 'unidade', 'componente', 'docente', 'SelectUnidade', 'SelectComponente', 'SelectDocente', 'PieChart', 'Page']
 
 # %% ../nbs/03_solara.ipynb 3
+import ast
+import warnings
 from typing import Union, Tuple
 
 import solara
@@ -63,7 +65,7 @@ def SelectDocente():
     solara.Select(label="Docente", value=docente, values=values)
 
 # %% ../nbs/03_solara.ipynb 11
-def PieChart():  
+def PieChart():
     q = f"""SELECT taxa_de_aprovacao
     FROM data
     WHERE unidade_responsavel = '{db_get(unidade)}' AND 
@@ -71,14 +73,20 @@ def PieChart():
           nome_docente = '{db_get(docente)}';
     """
 
-    data = pd.read_sql_query(q, db.connection)
-
-    taxa_aprovacao = data['tava_de_aprovacao']
+    data = db.execute_query(q)
+    if not data:
+        return
+    
+    try:
+        taxa_aprovacao = ast.literal_eval(data[0][0])
+    except Exception as e:
+        warnings.warn("No result for the current search")
+        return
 
     fig, ax = plt.subplots(figsize=(10, 6))
     wedges, texts, autotexts = ax.pie(
-        taxa_aprovacao.to_list(),
-        labels=taxa_aprovacao.unique().to_list(),
+        taxa_aprovacao.values(),
+        labels=taxa_aprovacao.keys(),
         autopct='%1.1f%%',
         startangle=90,
         wedgeprops=dict(width=0.4)
@@ -90,7 +98,7 @@ def PieChart():
 
     legend_labels = [
         f"{label}: {value}" 
-        for label, value in zip(taxa_aprovacao.unique().to_list(), taxa_aprovacao.to_list())
+        for label, value in taxa_aprovacao.items()
     ]
     
     ax.legend(wedges, legend_labels, title="Descrições", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
